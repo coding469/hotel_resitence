@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-work-sans);
+  --font-serif: var(--font-fraunces);
+
+  --color-cream: #f7f2e9;
+  --color-paper: #fbf6ed;
+  --color-panel: #efe6d4;
+  --color-espresso: #241b12;
+  --color-espresso-dark: #1c150f;
+  --color-brown: #4a3526;
+  --color-brown-light: #8a5a36;
+  --color-terracotta: #b3522b;
+  --color-gold: #cba052;
+  --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #1da851;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-espresso);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
