@@ -22,7 +22,12 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { Button } from "@/components/Button";
 import { CTABand } from "@/components/CTABand";
 import { WhatsappIcon } from "@/components/WhatsappIcon";
-import { WHATSAPP_DISPLAY, CONTACT_EMAIL, buildWaLink } from "@/lib/whatsapp";
+import {
+  WHATSAPP_DISPLAY,
+  PHONE_DISPLAY,
+  CONTACT_EMAIL,
+  buildWaLink,
+} from "@/lib/whatsapp";
 
 const MAPS_SEARCH_URL =
   "https://www.google.com/maps/search/?api=1&query=H%C3%B4tel%20R%C3%A9sidence%20A%C3%AFcha%2C%20Libert%C3%A9%20Ouest%2C%20Lot%20636%2C%20Tambacounda%2C%20S%C3%A9n%C3%A9gal";
@@ -195,7 +200,7 @@ export default function ContactPage() {
 
               <div className="flex flex-col gap-5">
                 <a
-                  href={`tel:${WHATSAPP_DISPLAY.replace(/\s/g, "")}`}
+                  href={`tel:${PHONE_DISPLAY.replace(/\s/g, "")}`}
                   className="flex items-center gap-4"
                 >
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-terracotta/12 text-terracotta">
@@ -206,7 +211,7 @@ export default function ContactPage() {
                       Téléphone
                     </span>
                     <span className="text-[15px] font-medium">
-                      {WHATSAPP_DISPLAY}
+                      {PHONE_DISPLAY}
                     </span>
                   </span>
                 </a>
