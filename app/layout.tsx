@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   title: "Hôtel Résidence Aïcha — Tambacounda",
   description:
     "Chambres confortables, accueil attentionné et emplacement central à Tambacounda. Réservez directement sur WhatsApp.",
+  verification: {
+    google: "PXQHZWp-NKDno6S0G8x8dnzCDQoBGpMK7iXVQcOfRBs",
+  },
 };
 
 const hotelJsonLd = {
