@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Phone } from "lucide-react";
 import { Wrap } from "./Wrap";
-import { WHATSAPP_DISPLAY, CONTACT_EMAIL, buildWaLink } from "@/lib/whatsapp";
+import { PHONE_DISPLAY, CONTACT_EMAIL } from "@/lib/whatsapp";
 
 const DEVELOPER_WA_LINK = "https://wa.me/221710338061";
 
@@ -59,13 +59,11 @@ export function Footer({ simple = false }: { simple?: boolean }) {
             Contact
           </span>
           <a
-            href={buildWaLink(
-              "Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda."
-            )}
+            href={`tel:${PHONE_DISPLAY.replace(/\s/g, "")}`}
             className="flex items-center gap-1.5 text-[13.5px] text-paper/75"
           >
             <Phone className="h-3.5 w-3.5" />
-            {WHATSAPP_DISPLAY}
+            {PHONE_DISPLAY}
           </a>
           <a
             href={`mailto:${CONTACT_EMAIL}`}
