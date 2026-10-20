@@ -26,7 +26,7 @@ const hotelJsonLd = {
   "@type": "Hotel",
   name: "Hôtel Résidence Aïcha",
   image: "/images/facade-principale.jpg",
-  telephone: "+221781608275",
+  telephone: "+221781292929",
   priceRange: "27000-45000 XOF",
   address: {
     "@type": "PostalAddress",
