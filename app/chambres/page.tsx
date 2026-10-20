@@ -15,7 +15,6 @@ const rooms = [
     image: "/images/chambre-standard.jpg",
     alt: "Chambre Standard — lit double, tête de lit en bois sombre, literie blanche",
     amenities: ["Climatisation", "Salle de bain privée", "Rangement et miroir"],
-    price: "27 000",
   },
   {
     name: "Chambre Confort",
@@ -24,7 +23,6 @@ const rooms = [
     image: "/images/chambre-confort.jpg",
     alt: "Chambre Confort — tête de lit capitonnée gris-bleu, liseuses intégrées, tableau décoratif",
     amenities: ["Climatisation", "Liseuses de chevet", "Salle de bain privée"],
-    price: "35 000",
   },
   {
     name: "Chambre Deluxe",
@@ -33,7 +31,6 @@ const rooms = [
     image: "/images/chambre-deluxe.jpg",
     alt: "Chambre Deluxe — ambiance chaleureuse, tons chauds, armoire miroir",
     amenities: ["Climatisation", "Armoire avec miroir", "Salle de bain privée"],
-    price: "45 000",
   },
   {
     name: "Chambre Cosy",
@@ -42,7 +39,6 @@ const rooms = [
     image: "/images/chambre-cosy.jpg",
     alt: "Chambre Cosy — ambiance chaleureuse aux tons chauds, coin salon",
     amenities: ["Climatisation", "Coin salon", "Salle de bain privée"],
-    price: "30 000",
   },
   {
     name: "Chambre Rosée",
@@ -51,7 +47,6 @@ const rooms = [
     image: "/images/chambre-rose.jpg",
     alt: "Chambre Rosée — tons rosés, fauteuil doré, décoration soignée",
     amenities: ["Climatisation", "Décoration soignée", "Salle de bain privée"],
-    price: "38 000",
   },
   {
     name: "Chambre Prestige",
@@ -60,7 +55,6 @@ const rooms = [
     image: "/images/chambre-deluxe-2.jpg",
     alt: "Chambre Prestige — tête de lit capitonnée, ambiance chaleureuse",
     amenities: ["Climatisation", "Tête de lit capitonnée", "Salle de bain privée"],
-    price: "42 000",
   },
 ];
 
@@ -120,8 +114,7 @@ export default function ChambresPage() {
           </h1>
           <p className="mt-4 max-w-[560px] text-base text-paper/80">
             Toutes nos chambres sont climatisées et disposent d&apos;une
-            salle de bain privée. Nos tarifs vont de 27 000 à 45 000 F CFA
-            la nuit selon la chambre — le prix exact vous est confirmé
+            salle de bain privée. Les tarifs vous sont confirmés
             directement sur WhatsApp selon la durée du séjour.
           </p>
         </Wrap>
@@ -168,15 +161,12 @@ export default function ChambresPage() {
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-auto flex items-center justify-between gap-2.5 pt-4">
-                    <span className="text-base font-bold text-terracotta">
-                      {room.price} F CFA
-                    </span>
+                  <div className="mt-auto pt-4">
                     <a
                       href={buildWaLink(
                         `Bonjour, je souhaite réserver une ${room.name} à l'Hôtel Résidence Aïcha.`
                       )}
-                      className="rounded-full bg-terracotta px-5 py-2.5 text-[13.5px] font-semibold text-paper"
+                      className="block w-full rounded-full bg-terracotta px-5 py-2.5 text-center text-[13.5px] font-semibold text-paper"
                     >
                       Réserver
                     </a>

@@ -23,7 +23,6 @@ const rooms = [
     capacity: "2 personnes",
     image: "/images/chambre-standard.jpg",
     alt: "Chambre Standard — lit double, tête de lit en bois sombre",
-    priceFrom: "27 000",
   },
   {
     slug: "confort",
@@ -31,7 +30,6 @@ const rooms = [
     capacity: "2–3 personnes",
     image: "/images/chambre-confort.jpg",
     alt: "Chambre Confort — tête de lit capitonnée gris-bleu avec liseuses",
-    priceFrom: "35 000",
   },
   {
     slug: "deluxe",
@@ -39,7 +37,6 @@ const rooms = [
     capacity: "2–3 personnes",
     image: "/images/chambre-deluxe.jpg",
     alt: "Chambre Deluxe — ambiance chaleureuse, tons chauds",
-    priceFrom: "45 000",
   },
 ];
 
@@ -195,9 +192,6 @@ export default function HomePage() {
                   </span>
                   <span className="flex items-center gap-1.5 text-[13.5px] text-espresso/60">
                     <Users className="h-[15px] w-[15px]" /> {room.capacity}
-                  </span>
-                  <span className="text-base font-bold text-terracotta">
-                    À partir de {room.priceFrom} F CFA
                   </span>
                 </div>
               </Link>
