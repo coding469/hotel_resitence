@@ -89,8 +89,8 @@ export default function HomePage() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-espresso/95 via-espresso/70 to-espresso/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-espresso/50 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-espresso/85 via-espresso/58 to-espresso/12" />
+        <div className="absolute inset-0 bg-gradient-to-t from-espresso/38 via-transparent to-transparent" />
         <Wrap className="relative w-full py-16 md:py-0">
           <div className="flex max-w-[560px] flex-col gap-6">
             <Eyebrow light>Bienvenue à Tambacounda</Eyebrow>

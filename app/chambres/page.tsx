@@ -106,7 +106,7 @@ export default function ChambresPage() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-espresso/92 via-espresso/75 to-espresso/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-espresso/82 via-espresso/60 to-espresso/25" />
         <Wrap className="relative">
           <Eyebrow light>Nos chambres</Eyebrow>
           <h1 className="mt-3.5 max-w-[620px] font-serif text-[28px] md:text-[40px] font-medium leading-[1.12] text-paper">

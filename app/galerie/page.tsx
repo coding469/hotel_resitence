@@ -128,7 +128,7 @@ export default function GaleriePage() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-espresso/75 via-espresso/50 to-espresso/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-espresso/65 via-espresso/40 to-espresso/8" />
         <Wrap className="relative">
           <Eyebrow light>Galerie photos</Eyebrow>
           <h1 className="mt-3.5 max-w-[620px] font-serif text-[28px] md:text-[40px] font-medium leading-[1.12] text-paper">
