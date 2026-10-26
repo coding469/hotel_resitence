@@ -30,7 +30,12 @@ export async function setContent<T>(
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues.map((issue) => issue.message).join(", ") };
   }
-  await redis.set(key, parsed.data);
+  try {
+    await redis.set(key, parsed.data);
+  } catch (error) {
+    console.error(`content:${key} write failed`, error);
+    return { ok: false, error: "Échec de l'enregistrement. Réessayez dans un instant." };
+  }
   for (const path of revalidatePaths) revalidatePath(path);
   return { ok: true };
 }

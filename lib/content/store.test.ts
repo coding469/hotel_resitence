@@ -54,4 +54,11 @@ describe("setContent", () => {
     expect(redis.set).toHaveBeenCalledWith("k", { title: "New" });
     expect(revalidatePath).toHaveBeenCalledWith("/");
   });
+
+  it("returns a clean error instead of throwing when the write fails", async () => {
+    vi.mocked(redis.set).mockRejectedValue(new Error("network"));
+    const result = await setContent("k", Schema, { title: "New" }, ["/"]);
+    expect(result).toEqual({ ok: false, error: expect.any(String) });
+    expect(revalidatePath).not.toHaveBeenCalled();
+  });
 });
