@@ -1,28 +1,4 @@
-import type {
-  GlobalContent,
-  RoomsContent,
-  GalleryContent,
-  HomeContent,
-  ChambresPageContent,
-  ContactContent,
-} from "./schemas";
-
-export const DEFAULT_GLOBAL_CONTENT: GlobalContent = {
-  phoneNumber: "221781292929",
-  phoneDisplay: "+221 78 129 29 29",
-  whatsappNumber: "221781608275",
-  whatsappDisplay: "+221 78 160 82 75",
-  email: "hotelaicha.tamba@gmail.com",
-  addressLine1: "Liberté Ouest, Lot 636",
-  addressLine2: "Tambacounda 26000, Sénégal",
-  mapsSearchUrl:
-    "https://www.google.com/maps/search/?api=1&query=H%C3%B4tel%20R%C3%A9sidence%20A%C3%AFcha%2C%20Libert%C3%A9%20Ouest%2C%20Lot%20636%2C%20Tambacounda%2C%20S%C3%A9n%C3%A9gal",
-  mapsEmbedUrl:
-    "https://www.google.com/maps?q=H%C3%B4tel%20R%C3%A9sidence%20A%C3%AFcha%2C%20Libert%C3%A9%20Ouest%2C%20Lot%20636%2C%20Tambacounda%2C%20S%C3%A9n%C3%A9gal&output=embed",
-  seoTitle: "Hôtel Résidence Aïcha — Tambacounda",
-  seoDescription:
-    "Chambres confortables, accueil attentionné et emplacement central à Tambacounda. Réservez directement sur WhatsApp.",
-};
+import type { RoomsContent, GalleryContent, ChambresPageContent, ContactContent } from "./schemas";
 
 export const DEFAULT_ROOMS_CONTENT: RoomsContent = [
   {
@@ -117,49 +93,6 @@ export const DEFAULT_GALLERY_CONTENT: GalleryContent = {
   ],
 };
 
-export const DEFAULT_HOME_CONTENT: HomeContent = {
-  heroEyebrow: "Bienvenue à Tambacounda",
-  heroTitle: "Un séjour chaleureux, au cœur de la ville",
-  heroText:
-    "Chambres confortables, accueil attentionné et emplacement central — l'Hôtel Résidence Aïcha vous reçoit comme chez vous, pour une nuit ou un long séjour.",
-  introEyebrow: "Notre hôtel",
-  introTitle: "Un accueil sénégalais, pensé dans les moindres détails",
-  introText:
-    "Situé dans le quartier Liberté Ouest à Tambacounda, l'Hôtel Résidence Aïcha propose des chambres climatisées avec salle de bain privée, un immeuble sécurisé sous vidéosurveillance et une équipe joignable directement sur WhatsApp. Que vous soyez de passage pour affaires ou en famille, vous trouverez ici calme, propreté et un service attentif.",
-  trustItems: [
-    { icon: "mapPin", label: "Liberté Ouest, Tambacounda" },
-    { icon: "camera", label: "Immeuble sous vidéosurveillance" },
-    { icon: "sparkles", label: "Chambres climatisées et soignées" },
-    { icon: "zap", label: "Réponse rapide sur WhatsApp" },
-  ],
-  reasons: [
-    {
-      icon: "mapPin",
-      title: "Emplacement pratique",
-      text: "Situé à Liberté Ouest, à proximité des axes principaux de Tambacounda — facile à trouver, facile à rejoindre.",
-    },
-    {
-      icon: "camera",
-      title: "Sécurité et sérénité",
-      text: "Couloirs et accès sous vidéosurveillance, pour un séjour l'esprit tranquille, seul, en famille ou entre collègues.",
-    },
-    {
-      icon: "zap",
-      title: "Réservation simple",
-      text: "Un message sur WhatsApp suffit : nous confirmons votre disponibilité et votre chambre rapidement.",
-    },
-  ],
-  testimonials: [
-    {
-      quote:
-        "Une expérience mémorable au cœur de Tambacounda. La sérénité du lieu et la gentillesse de l'équipe en font le point de chute idéal pour explorer la région, avec un confort optimal.",
-      author: "Avis vérifié",
-    },
-    { quote: "Meilleur hôtel de Tambacounda avec un accueil chaleureux et agréable.", author: "Avis Google" },
-    { quote: "Belle surprise. Bon accueil, chambre propre, bon petit déjeuner.", author: "Avis Google" },
-  ],
-};
-
 export const DEFAULT_CHAMBRES_PAGE_CONTENT: ChambresPageContent = {
   heroEyebrow: "Nos chambres",
   heroTitle: "Un espace confortable pour chaque type de séjour",
@@ -182,6 +115,17 @@ export const DEFAULT_CHAMBRES_PAGE_CONTENT: ChambresPageContent = {
 };
 
 export const DEFAULT_CONTACT_CONTENT: ContactContent = {
+  phoneNumber: "221781292929",
+  phoneDisplay: "+221 78 129 29 29",
+  whatsappNumber: "221781608275",
+  whatsappDisplay: "+221 78 160 82 75",
+  email: "hotelaicha.tamba@gmail.com",
+  addressLine1: "Liberté Ouest, Lot 636",
+  addressLine2: "Tambacounda 26000, Sénégal",
+  mapsSearchUrl:
+    "https://www.google.com/maps/search/?api=1&query=H%C3%B4tel%20R%C3%A9sidence%20A%C3%AFcha%2C%20Libert%C3%A9%20Ouest%2C%20Lot%20636%2C%20Tambacounda%2C%20S%C3%A9n%C3%A9gal",
+  mapsEmbedUrl:
+    "https://www.google.com/maps?q=H%C3%B4tel%20R%C3%A9sidence%20A%C3%AFcha%2C%20Libert%C3%A9%20Ouest%2C%20Lot%20636%2C%20Tambacounda%2C%20S%C3%A9n%C3%A9gal&output=embed",
   heroEyebrow: "Services, localisation & contact",
   heroTitle: "Tout ce qu'il faut savoir avant votre arrivée",
   heroText: "Nos équipements, notre adresse exacte et la marche à suivre pour réserver votre chambre à Tambacounda.",

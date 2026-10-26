@@ -18,21 +18,6 @@ export const IconKey = z.enum([
 ]);
 export type IconKey = z.infer<typeof IconKey>;
 
-export const GlobalContentSchema = z.object({
-  phoneNumber: z.string().min(6),
-  phoneDisplay: z.string().min(6),
-  whatsappNumber: z.string().min(6),
-  whatsappDisplay: z.string().min(6),
-  email: z.string().email(),
-  addressLine1: z.string().min(1),
-  addressLine2: z.string().min(1),
-  mapsSearchUrl: z.string().url(),
-  mapsEmbedUrl: z.string().url(),
-  seoTitle: z.string().min(1),
-  seoDescription: z.string().min(1),
-});
-export type GlobalContent = z.infer<typeof GlobalContentSchema>;
-
 export const RoomSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
@@ -61,30 +46,6 @@ export const GalleryContentSchema = z.object({
   photos: z.array(GalleryPhotoSchema),
 });
 export type GalleryContent = z.infer<typeof GalleryContentSchema>;
-
-export const TrustItemSchema = z.object({ icon: IconKey, label: z.string().min(1) });
-export const ReasonSchema = z.object({
-  icon: IconKey,
-  title: z.string().min(1),
-  text: z.string().min(1),
-});
-export const TestimonialSchema = z.object({
-  quote: z.string().min(1),
-  author: z.string().min(1),
-});
-
-export const HomeContentSchema = z.object({
-  heroEyebrow: z.string().min(1),
-  heroTitle: z.string().min(1),
-  heroText: z.string().min(1),
-  introEyebrow: z.string().min(1),
-  introTitle: z.string().min(1),
-  introText: z.string().min(1),
-  trustItems: z.array(TrustItemSchema),
-  reasons: z.array(ReasonSchema),
-  testimonials: z.array(TestimonialSchema),
-});
-export type HomeContent = z.infer<typeof HomeContentSchema>;
 
 export const MoreRoomPhotoSchema = z.object({
   id: z.string().min(1),
@@ -117,6 +78,15 @@ export const StepSchema = z.object({
   text: z.string().min(1),
 });
 export const ContactContentSchema = z.object({
+  phoneNumber: z.string().min(6),
+  phoneDisplay: z.string().min(6),
+  whatsappNumber: z.string().min(6),
+  whatsappDisplay: z.string().min(6),
+  email: z.string().email(),
+  addressLine1: z.string().min(1),
+  addressLine2: z.string().min(1),
+  mapsSearchUrl: z.string().url(),
+  mapsEmbedUrl: z.string().url(),
   heroEyebrow: z.string().min(1),
   heroTitle: z.string().min(1),
   heroText: z.string().min(1),
