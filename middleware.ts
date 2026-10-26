@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifySessionToken, SESSION_COOKIE_NAME } from "@/lib/auth";
 
+export const runtime = "nodejs";
+
 export function middleware(request: NextRequest) {
   if (request.nextUrl.pathname === "/admin/login") {
     return NextResponse.next();

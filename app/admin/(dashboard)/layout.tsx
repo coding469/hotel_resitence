@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { logout } from "./login/actions";
+import { logout } from "../login/actions";
 
 const sections = [
   { href: "/admin/general", label: "Général" },

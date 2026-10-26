@@ -8,6 +8,11 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { Button } from "@/components/Button";
 import { CTABand } from "@/components/CTABand";
 import { buildWaLink } from "@/lib/whatsapp";
+import { getContent } from "@/lib/content/store";
+import { GlobalContentSchema } from "@/lib/content/schemas";
+import { DEFAULT_GLOBAL_CONTENT } from "@/lib/content/defaults";
+
+export const instant = false;
 
 const trustItems = [
   { icon: MapPin, label: "Liberté Ouest, Tambacounda" },
@@ -74,10 +79,11 @@ const reasons = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const global = await getContent("global", GlobalContentSchema, DEFAULT_GLOBAL_CONTENT);
   return (
     <>
-      <Header current="accueil" />
+      <Header current="accueil" waNumber={global.whatsappNumber} />
 
       {/* Hero */}
       <section className="relative w-full min-h-[480px] md:min-h-[620px] flex items-center overflow-hidden">
@@ -105,7 +111,8 @@ export default function HomePage() {
             <div className="mt-1.5 flex flex-wrap gap-3.5">
               <Button
                 href={buildWaLink(
-                  "Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda."
+                  "Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda.",
+                  global.whatsappNumber
                 )}
               >
                 <MessageCircle className="h-[18px] w-[18px]" />
@@ -333,11 +340,12 @@ export default function HomePage() {
         heading="Prêt à réserver votre séjour à l'Hôtel Résidence Aïcha ?"
         buttonLabel="Contactez-nous sur WhatsApp"
         waMessage="Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda."
+        waNumber={global.whatsappNumber}
         size="large"
         greenButton
       />
 
-      <Footer />
+      <Footer phoneDisplay={global.phoneDisplay} email={global.email} />
     </>
   );
 }

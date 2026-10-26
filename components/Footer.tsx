@@ -1,11 +1,18 @@
 import Link from "next/link";
 import { Phone } from "lucide-react";
 import { Wrap } from "./Wrap";
-import { PHONE_DISPLAY, CONTACT_EMAIL } from "@/lib/whatsapp";
 
 const DEVELOPER_WA_LINK = "https://wa.me/221710338061";
 
-export function Footer({ simple = false }: { simple?: boolean }) {
+export function Footer({
+  simple = false,
+  phoneDisplay,
+  email,
+}: {
+  simple?: boolean;
+  phoneDisplay?: string;
+  email?: string;
+}) {
   if (simple) {
     return (
       <footer className="w-full bg-espresso-dark px-5 md:px-8 py-10">
@@ -58,19 +65,20 @@ export function Footer({ simple = false }: { simple?: boolean }) {
           <span className="text-xs font-bold uppercase tracking-[0.14em] text-paper/40">
             Contact
           </span>
-          <a
-            href={`tel:${PHONE_DISPLAY.replace(/\s/g, "")}`}
-            className="flex items-center gap-1.5 text-[13.5px] text-paper/75"
-          >
-            <Phone className="h-3.5 w-3.5" />
-            {PHONE_DISPLAY}
-          </a>
-          <a
-            href={`mailto:${CONTACT_EMAIL}`}
-            className="text-[13.5px] text-paper/75"
-          >
-            {CONTACT_EMAIL}
-          </a>
+          {phoneDisplay && (
+            <a
+              href={`tel:${phoneDisplay.replace(/\s/g, "")}`}
+              className="flex items-center gap-1.5 text-[13.5px] text-paper/75"
+            >
+              <Phone className="h-3.5 w-3.5" />
+              {phoneDisplay}
+            </a>
+          )}
+          {email && (
+            <a href={`mailto:${email}`} className="text-[13.5px] text-paper/75">
+              {email}
+            </a>
+          )}
         </div>
       </Wrap>
       <Wrap className="mt-10 border-t border-paper/10 pt-6 !px-0">

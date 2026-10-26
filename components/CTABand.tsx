@@ -8,12 +8,14 @@ export function CTABand({
   heading,
   buttonLabel,
   waMessage,
+  waNumber,
   size = "default",
   greenButton = false,
 }: {
   heading: string;
   buttonLabel: string;
   waMessage: string;
+  waNumber: string;
   size?: "default" | "large";
   greenButton?: boolean;
 }) {
@@ -28,7 +30,7 @@ export function CTABand({
           {heading}
         </h2>
         <Button
-          href={buildWaLink(waMessage)}
+          href={buildWaLink(waMessage, waNumber)}
           variant={greenButton ? "whatsapp" : "invert"}
         >
           {greenButton ? (

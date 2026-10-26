@@ -22,17 +22,12 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { Button } from "@/components/Button";
 import { CTABand } from "@/components/CTABand";
 import { WhatsappIcon } from "@/components/WhatsappIcon";
-import {
-  WHATSAPP_DISPLAY,
-  PHONE_DISPLAY,
-  CONTACT_EMAIL,
-  buildWaLink,
-} from "@/lib/whatsapp";
+import { buildWaLink } from "@/lib/whatsapp";
+import { getContent } from "@/lib/content/store";
+import { GlobalContentSchema } from "@/lib/content/schemas";
+import { DEFAULT_GLOBAL_CONTENT } from "@/lib/content/defaults";
 
-const MAPS_SEARCH_URL =
-  "https://www.google.com/maps/search/?api=1&query=H%C3%B4tel%20R%C3%A9sidence%20A%C3%AFcha%2C%20Libert%C3%A9%20Ouest%2C%20Lot%20636%2C%20Tambacounda%2C%20S%C3%A9n%C3%A9gal";
-const MAPS_EMBED_URL =
-  "https://www.google.com/maps?q=H%C3%B4tel%20R%C3%A9sidence%20A%C3%AFcha%2C%20Libert%C3%A9%20Ouest%2C%20Lot%20636%2C%20Tambacounda%2C%20S%C3%A9n%C3%A9gal&output=embed";
+export const instant = false;
 
 const services = [
   {
@@ -100,10 +95,11 @@ const steps = [
   },
 ];
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const global = await getContent("global", GlobalContentSchema, DEFAULT_GLOBAL_CONTENT);
   return (
     <>
-      <Header current="contact" />
+      <Header current="contact" waNumber={global.whatsappNumber} />
 
       {/* Title banner */}
       <section className="relative w-full overflow-hidden py-14 md:py-[88px]">
@@ -189,9 +185,9 @@ export default function ContactPage() {
                     Hôtel Résidence Aïcha
                   </span>
                   <span className="text-[14px] leading-[1.5] text-espresso/65">
-                    Liberté Ouest, Lot 636
+                    {global.addressLine1}
                     <br />
-                    Tambacounda 26000, Sénégal
+                    {global.addressLine2}
                   </span>
                 </div>
               </div>
@@ -200,7 +196,7 @@ export default function ContactPage() {
 
               <div className="flex flex-col gap-5">
                 <a
-                  href={`tel:${PHONE_DISPLAY.replace(/\s/g, "")}`}
+                  href={`tel:${global.phoneDisplay.replace(/\s/g, "")}`}
                   className="flex items-center gap-4"
                 >
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-terracotta/12 text-terracotta">
@@ -211,14 +207,15 @@ export default function ContactPage() {
                       Téléphone
                     </span>
                     <span className="text-[15px] font-medium">
-                      {PHONE_DISPLAY}
+                      {global.phoneDisplay}
                     </span>
                   </span>
                 </a>
 
                 <a
                   href={buildWaLink(
-                    "Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda."
+                    "Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda.",
+                    global.whatsappNumber
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -232,13 +229,13 @@ export default function ContactPage() {
                       WhatsApp
                     </span>
                     <span className="text-[15px] font-medium">
-                      {WHATSAPP_DISPLAY}
+                      {global.whatsappDisplay}
                     </span>
                   </span>
                 </a>
 
                 <a
-                  href={`mailto:${CONTACT_EMAIL}`}
+                  href={`mailto:${global.email}`}
                   className="flex items-center gap-4"
                 >
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-terracotta/12 text-terracotta">
@@ -249,14 +246,14 @@ export default function ContactPage() {
                       Email
                     </span>
                     <span className="text-[15px] font-medium">
-                      {CONTACT_EMAIL}
+                      {global.email}
                     </span>
                   </span>
                 </a>
               </div>
 
               <a
-                href={MAPS_SEARCH_URL}
+                href={global.mapsSearchUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-2 flex items-center justify-center gap-2.5 rounded-full bg-espresso px-6 py-4 text-[14.5px] font-bold text-paper transition-opacity duration-200 hover:opacity-85"
@@ -270,7 +267,7 @@ export default function ContactPage() {
             {/* Map embed */}
             <div className="relative min-h-[320px] md:min-h-full">
               <iframe
-                src={MAPS_EMBED_URL}
+                src={global.mapsEmbedUrl}
                 title="Localisation de l'Hôtel Résidence Aïcha sur Google Maps"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
@@ -317,17 +314,18 @@ export default function ContactPage() {
           </h2>
           <Button
             href={buildWaLink(
-              "Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda."
+              "Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda.",
+              global.whatsappNumber
             )}
             variant="whatsapp"
           >
             <WhatsappIcon className="h-[18px] w-[18px]" />
-            {WHATSAPP_DISPLAY}
+            {global.whatsappDisplay}
           </Button>
         </Wrap>
       </section>
 
-      <Footer />
+      <Footer phoneDisplay={global.phoneDisplay} email={global.email} />
     </>
   );
 }

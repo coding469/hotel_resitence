@@ -6,6 +6,11 @@ import { Wrap } from "@/components/Wrap";
 import { Eyebrow } from "@/components/Eyebrow";
 import { CTABand } from "@/components/CTABand";
 import { buildWaLink } from "@/lib/whatsapp";
+import { getContent } from "@/lib/content/store";
+import { GlobalContentSchema } from "@/lib/content/schemas";
+import { DEFAULT_GLOBAL_CONTENT } from "@/lib/content/defaults";
+
+export const instant = false;
 
 const rooms = [
   {
@@ -91,10 +96,11 @@ const moreRooms = [
   },
 ];
 
-export default function ChambresPage() {
+export default async function ChambresPage() {
+  const global = await getContent("global", GlobalContentSchema, DEFAULT_GLOBAL_CONTENT);
   return (
     <>
-      <Header current="chambres" />
+      <Header current="chambres" waNumber={global.whatsappNumber} />
 
       {/* Title banner */}
       <section className="relative w-full overflow-hidden py-14 md:py-[88px]">
@@ -164,7 +170,8 @@ export default function ChambresPage() {
                   <div className="mt-auto pt-4">
                     <a
                       href={buildWaLink(
-                        `Bonjour, je souhaite réserver une ${room.name} à l'Hôtel Résidence Aïcha.`
+                        `Bonjour, je souhaite réserver une ${room.name} à l'Hôtel Résidence Aïcha.`,
+                        global.whatsappNumber
                       )}
                       className="block w-full rounded-full bg-terracotta px-5 py-2.5 text-center text-[13.5px] font-semibold text-paper"
                     >
@@ -220,7 +227,8 @@ export default function ChambresPage() {
           <div className="mt-7 flex flex-wrap items-center gap-4">
             <a
               href={buildWaLink(
-                "Bonjour, je souhaite connaître les disponibilités et tarifs des chambres de l'Hôtel Résidence Aïcha."
+                "Bonjour, je souhaite connaître les disponibilités et tarifs des chambres de l'Hôtel Résidence Aïcha.",
+                global.whatsappNumber
               )}
               className="flex items-center gap-2 rounded-full bg-terracotta px-6 py-3.5 text-[14px] font-semibold text-paper"
             >
@@ -273,6 +281,7 @@ export default function ChambresPage() {
         heading="Une question sur une chambre ou une disponibilité ?"
         buttonLabel="Écrivez-nous sur WhatsApp"
         waMessage="Bonjour, j'ai une question sur les chambres de l'Hôtel Résidence Aïcha."
+        waNumber={global.whatsappNumber}
         greenButton
       />
 

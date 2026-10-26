@@ -16,7 +16,7 @@ const navLinks: { key: NavKey; href: string; label: string }[] = [
   { key: "contact", href: "/contact", label: "Contact" },
 ];
 
-export function Header({ current }: { current: NavKey }) {
+export function Header({ current, waNumber }: { current: NavKey; waNumber: string }) {
   const [open, setOpen] = useState(false);
   const avisHref = current === "accueil" ? "#avis" : "/#avis";
 
@@ -55,7 +55,8 @@ export function Header({ current }: { current: NavKey }) {
           ))}
           <Button
             href={buildWaLink(
-              "Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda."
+              "Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda.",
+              waNumber
             )}
             small
           >
@@ -106,7 +107,8 @@ export function Header({ current }: { current: NavKey }) {
             ))}
             <Button
               href={buildWaLink(
-                "Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda."
+                "Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda.",
+                waNumber
               )}
               small
               className="mt-3 justify-center"
