@@ -1,9 +1,14 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Image from "next/image";
+import { Users } from "lucide-react";
 import type { Room, RoomsContent } from "@/lib/content/schemas";
 import { ListEditor } from "@/components/admin/ListEditor";
 import { ImageUploadField } from "@/components/admin/ImageUploadField";
+import { TextField } from "@/components/admin/TextField";
+import { AdminAlert } from "@/components/admin/AdminAlert";
+import { SaveButton } from "@/components/admin/SaveButton";
 import { generateId } from "@/lib/content/ids";
 import { saveRooms } from "./actions";
 
@@ -23,94 +28,75 @@ function emptyRoom(): Room {
 export function RoomsForm({ initial }: { initial: RoomsContent }) {
   const [rooms, setRooms] = useState<RoomsContent>(initial);
   const [pending, startSave] = useTransition();
-  const [message, setMessage] = useState<string | null>(null);
+  const [status, setStatus] = useState<{ tone: "success" | "error"; message: string } | null>(null);
 
   function handleSave() {
-    setMessage(null);
+    setStatus(null);
     startSave(async () => {
       const result = await saveRooms(rooms);
-      setMessage(result?.error ?? "Enregistré.");
+      setStatus(result?.error ? { tone: "error", message: result.error } : { tone: "success", message: "Chambres enregistrées." });
     });
   }
 
   return (
-    <div className="mt-6 flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <ListEditor
         items={rooms}
         onChange={setRooms}
         createItem={emptyRoom}
         addLabel="Ajouter une chambre"
-        renderItem={(room, update) => (
-          <div className="flex flex-col gap-3">
-            <label className="flex flex-col gap-1.5 text-sm">
-              <span className="font-semibold">Nom</span>
-              <input
-                value={room.name}
-                onChange={(e) => update({ name: e.target.value })}
-                className="rounded-lg border border-espresso/20 px-3 py-2"
-              />
-            </label>
-            <div className="flex gap-3">
-              <label className="flex flex-1 flex-col gap-1.5 text-sm">
-                <span className="font-semibold">Capacité</span>
-                <input
-                  value={room.capacity}
-                  onChange={(e) => update({ capacity: e.target.value })}
-                  placeholder="ex: 2 pers."
-                  className="rounded-lg border border-espresso/20 px-3 py-2"
-                />
-              </label>
-              <label className="flex flex-1 flex-col gap-1.5 text-sm">
-                <span className="font-semibold">Lit</span>
-                <input
-                  value={room.bed}
-                  onChange={(e) => update({ bed: e.target.value })}
-                  placeholder="ex: 1 lit double"
-                  className="rounded-lg border border-espresso/20 px-3 py-2"
-                />
-              </label>
+        renderSummary={(room) => (
+          <div className="flex items-center gap-3">
+            <div className="relative h-11 w-14 shrink-0 overflow-hidden rounded-lg bg-espresso/5">
+              {room.image && <Image src={room.image} alt="" fill sizes="56px" className="object-cover" />}
             </div>
-            <label className="flex flex-col gap-1.5 text-sm">
-              <span className="font-semibold">Équipements (un par ligne)</span>
-              <textarea
-                value={room.amenities.join("\n")}
-                onChange={(e) =>
-                  update({ amenities: e.target.value.split("\n").filter((line) => line.trim() !== "") })
-                }
-                rows={3}
-                className="rounded-lg border border-espresso/20 px-3 py-2"
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold">{room.name || "Nouvelle chambre"}</p>
+              {room.capacity && (
+                <p className="flex items-center gap-1 text-xs text-espresso/50">
+                  <Users className="h-3 w-3" /> {room.capacity}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+        renderItem={(room, update) => (
+          <div className="flex flex-col gap-3.5">
+            <TextField label="Nom" value={room.name} onChange={(v) => update({ name: v })} />
+            <div className="grid grid-cols-2 gap-3">
+              <TextField
+                label="Capacité"
+                value={room.capacity}
+                onChange={(v) => update({ capacity: v })}
+                placeholder="ex: 2 pers."
               />
-            </label>
-            <label className="flex flex-col gap-1.5 text-sm">
-              <span className="font-semibold">Description (optionnelle)</span>
-              <textarea
-                value={room.description}
-                onChange={(e) => update({ description: e.target.value })}
-                rows={2}
-                className="rounded-lg border border-espresso/20 px-3 py-2"
-              />
-            </label>
-            <label className="flex flex-col gap-1.5 text-sm">
-              <span className="font-semibold">Texte alternatif (accessibilité)</span>
-              <input
-                value={room.imageAlt}
-                onChange={(e) => update({ imageAlt: e.target.value })}
-                className="rounded-lg border border-espresso/20 px-3 py-2"
-              />
-            </label>
+              <TextField label="Lit" value={room.bed} onChange={(v) => update({ bed: v })} placeholder="ex: 1 lit double" />
+            </div>
+            <TextField
+              label="Équipements (un par ligne)"
+              multiline
+              rows={3}
+              value={room.amenities.join("\n")}
+              onChange={(v) => update({ amenities: v.split("\n").filter((line) => line.trim() !== "") })}
+            />
+            <TextField
+              label="Description (optionnelle)"
+              multiline
+              rows={2}
+              value={room.description}
+              onChange={(v) => update({ description: v })}
+            />
+            <TextField
+              label="Texte alternatif (accessibilité)"
+              value={room.imageAlt}
+              onChange={(v) => update({ imageAlt: v })}
+            />
             <ImageUploadField value={room.image} onChange={(url) => update({ image: url })} label="Photo" />
           </div>
         )}
       />
-      {message && <p className="text-sm">{message}</p>}
-      <button
-        type="button"
-        onClick={handleSave}
-        disabled={pending}
-        className="w-fit rounded-full bg-terracotta px-6 py-3 text-sm font-semibold text-paper disabled:opacity-60"
-      >
-        {pending ? "Enregistrement..." : "Enregistrer les modifications"}
-      </button>
+      {status && <AdminAlert tone={status.tone}>{status.message}</AdminAlert>}
+      <SaveButton pending={pending} onClick={handleSave} />
     </div>
   );
 }
