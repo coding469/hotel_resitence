@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import Image from "next/image";
+import { ImagePlus, Loader2 } from "lucide-react";
 import { uploadContentImage } from "@/lib/content/upload";
 
 export function ImageUploadField({
@@ -30,22 +31,37 @@ export function ImageUploadField({
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <span className="text-sm font-semibold">{label}</span>
-      {value && (
-        <div className="relative h-32 w-48 overflow-hidden rounded-lg border border-espresso/10">
-          <Image src={value} alt="" fill className="object-cover" />
+    <div className="flex flex-col gap-1.5">
+      <span className="text-[13px] font-semibold text-espresso/70">{label}</span>
+      <label
+        className={`relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border transition-colors ${
+          value ? "border-espresso/10" : "border-dashed border-espresso/20 hover:border-terracotta/40"
+        }`}
+      >
+        {value && <Image src={value} alt="" fill sizes="(max-width: 640px) 100vw, 320px" className="object-cover" />}
+        <div
+          className={`absolute inset-0 flex flex-col items-center justify-center gap-1.5 text-center text-xs font-medium transition-colors ${
+            value ? "bg-espresso/0 text-transparent opacity-0 hover:bg-espresso/40 hover:text-paper hover:opacity-100" : "text-espresso/45"
+          }`}
+        >
+          {pending ? (
+            <Loader2 className="h-5 w-5 animate-spin" />
+          ) : (
+            <>
+              <ImagePlus className="h-5 w-5" />
+              {value ? "Remplacer" : "Choisir une photo"}
+            </>
+          )}
         </div>
-      )}
-      <input
-        type="file"
-        accept="image/jpeg,image/png,image/webp"
-        onChange={(e) => handleFile(e.target.files?.[0])}
-        disabled={pending}
-        className="text-sm"
-      />
-      {pending && <span className="text-xs text-espresso/50">Envoi en cours...</span>}
-      {error && <span className="text-xs text-red-600">{error}</span>}
+        <input
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          onChange={(e) => handleFile(e.target.files?.[0])}
+          disabled={pending}
+          className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+        />
+      </label>
+      {error && <span className="text-xs font-medium text-red-600">{error}</span>}
     </div>
   );
 }

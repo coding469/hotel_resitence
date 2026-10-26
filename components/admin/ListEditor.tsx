@@ -1,22 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronUp, ChevronDown, Trash2, Plus } from "lucide-react";
+import { ChevronUp, ChevronDown, ChevronRight, Trash2, Plus } from "lucide-react";
 
 export function ListEditor<T extends { id: string }>({
   items,
   onChange,
+  renderSummary,
   renderItem,
   createItem,
   addLabel,
 }: {
   items: T[];
   onChange: (items: T[]) => void;
+  renderSummary: (item: T) => React.ReactNode;
   renderItem: (item: T, update: (patch: Partial<T>) => void) => React.ReactNode;
   createItem: () => T;
   addLabel: string;
 }) {
   const [confirmingId, setConfirmingId] = useState<string | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   function move(index: number, direction: -1 | 1) {
     const target = index + direction;
@@ -33,52 +36,88 @@ export function ListEditor<T extends { id: string }>({
   function remove(id: string) {
     onChange(items.filter((item) => item.id !== id));
     setConfirmingId(null);
+    if (expandedId === id) setExpandedId(null);
+  }
+
+  function handleAdd() {
+    const item = createItem();
+    onChange([...items, item]);
+    setExpandedId(item.id);
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      {items.map((item, index) => (
-        <div key={item.id} className="rounded-xl border border-espresso/15 p-4">
-          <div className="mb-3 flex items-center justify-between gap-2">
-            <div className="flex gap-1">
+    <div className="flex flex-col gap-2.5">
+      {items.map((item, index) => {
+        const expanded = expandedId === item.id;
+        return (
+          <div
+            key={item.id}
+            className={`overflow-hidden rounded-xl border transition-colors ${
+              expanded ? "border-terracotta/30 bg-paper" : "border-espresso/10 bg-paper"
+            }`}
+          >
+            <div className="flex items-center gap-2 px-3 py-2.5">
               <button
                 type="button"
-                onClick={() => move(index, -1)}
-                disabled={index === 0}
-                className="rounded p-1 disabled:opacity-30"
+                onClick={() => setExpandedId(expanded ? null : item.id)}
+                className="flex flex-1 items-center gap-3 text-left"
               >
-                <ChevronUp className="h-4 w-4" />
+                <ChevronRight
+                  className={`h-4 w-4 shrink-0 text-espresso/35 transition-transform ${expanded ? "rotate-90" : ""}`}
+                />
+                <div className="min-w-0 flex-1">{renderSummary(item)}</div>
               </button>
-              <button
-                type="button"
-                onClick={() => move(index, 1)}
-                disabled={index === items.length - 1}
-                className="rounded p-1 disabled:opacity-30"
-              >
-                <ChevronDown className="h-4 w-4" />
-              </button>
+              <div className="flex shrink-0 items-center gap-0.5">
+                <button
+                  type="button"
+                  onClick={() => move(index, -1)}
+                  disabled={index === 0}
+                  className="rounded-lg p-1.5 text-espresso/40 hover:bg-espresso/5 hover:text-espresso disabled:opacity-25 disabled:hover:bg-transparent"
+                  aria-label="Déplacer vers le haut"
+                >
+                  <ChevronUp className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => move(index, 1)}
+                  disabled={index === items.length - 1}
+                  className="rounded-lg p-1.5 text-espresso/40 hover:bg-espresso/5 hover:text-espresso disabled:opacity-25 disabled:hover:bg-transparent"
+                  aria-label="Déplacer vers le bas"
+                >
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+                {confirmingId === item.id ? (
+                  <button
+                    type="button"
+                    onClick={() => remove(item.id)}
+                    className="ml-1 rounded-lg bg-red-600 px-2.5 py-1 text-xs font-semibold text-white"
+                  >
+                    Confirmer ?
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setConfirmingId(item.id)}
+                    className="rounded-lg p-1.5 text-espresso/40 hover:bg-red-600/10 hover:text-red-600"
+                    aria-label="Supprimer"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
             </div>
-            {confirmingId === item.id ? (
-              <button type="button" onClick={() => remove(item.id)} className="text-sm font-semibold text-red-600">
-                Confirmer la suppression ?
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setConfirmingId(item.id)}
-                className="rounded p-1 text-espresso/50 hover:text-red-600"
-              >
-                <Trash2 className="h-4 w-4" />
-              </button>
+            {expanded && (
+              <div className="border-t border-espresso/8 px-4 pb-4 pt-3.5">
+                {renderItem(item, (patch) => update(item.id, patch))}
+              </div>
             )}
           </div>
-          {renderItem(item, (patch) => update(item.id, patch))}
-        </div>
-      ))}
+        );
+      })}
       <button
         type="button"
-        onClick={() => onChange([...items, createItem()])}
-        className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-espresso/25 py-3 text-sm font-semibold text-espresso/60 hover:border-terracotta hover:text-terracotta"
+        onClick={handleAdd}
+        className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-espresso/20 py-3 text-sm font-semibold text-espresso/55 transition-colors hover:border-terracotta/40 hover:text-terracotta"
       >
         <Plus className="h-4 w-4" /> {addLabel}
       </button>
