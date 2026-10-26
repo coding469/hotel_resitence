@@ -7,9 +7,9 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { CTABand } from "@/components/CTABand";
 import { buildWaLink } from "@/lib/whatsapp";
 import { getContent } from "@/lib/content/store";
-import { GlobalContentSchema, RoomsContentSchema, ChambresPageContentSchema } from "@/lib/content/schemas";
+import { ContactContentSchema, RoomsContentSchema, ChambresPageContentSchema } from "@/lib/content/schemas";
 import {
-  DEFAULT_GLOBAL_CONTENT,
+  DEFAULT_CONTACT_CONTENT,
   DEFAULT_ROOMS_CONTENT,
   DEFAULT_CHAMBRES_PAGE_CONTENT,
 } from "@/lib/content/defaults";
@@ -17,12 +17,12 @@ import {
 export const instant = false;
 
 export default async function ChambresPage() {
-  const global = await getContent("global", GlobalContentSchema, DEFAULT_GLOBAL_CONTENT);
+  const contact = await getContent("contact", ContactContentSchema, DEFAULT_CONTACT_CONTENT);
   const rooms = await getContent("rooms", RoomsContentSchema, DEFAULT_ROOMS_CONTENT);
   const chambresPage = await getContent("chambresPage", ChambresPageContentSchema, DEFAULT_CHAMBRES_PAGE_CONTENT);
   return (
     <>
-      <Header current="chambres" waNumber={global.whatsappNumber} />
+      <Header current="chambres" waNumber={contact.whatsappNumber} />
 
       {/* Title banner */}
       <section className="relative w-full overflow-hidden py-14 md:py-[88px]">
@@ -92,7 +92,7 @@ export default async function ChambresPage() {
                     <a
                       href={buildWaLink(
                         `Bonjour, je souhaite réserver une ${room.name} à l'Hôtel Résidence Aïcha.`,
-                        global.whatsappNumber
+                        contact.whatsappNumber
                       )}
                       className="block w-full rounded-full bg-terracotta px-5 py-2.5 text-center text-[13.5px] font-semibold text-paper"
                     >
@@ -149,7 +149,7 @@ export default async function ChambresPage() {
             <a
               href={buildWaLink(
                 "Bonjour, je souhaite connaître les disponibilités et tarifs des chambres de l'Hôtel Résidence Aïcha.",
-                global.whatsappNumber
+                contact.whatsappNumber
               )}
               className="flex items-center gap-2 rounded-full bg-terracotta px-6 py-3.5 text-[14px] font-semibold text-paper"
             >
@@ -202,7 +202,7 @@ export default async function ChambresPage() {
         heading="Une question sur une chambre ou une disponibilité ?"
         buttonLabel="Écrivez-nous sur WhatsApp"
         waMessage="Bonjour, j'ai une question sur les chambres de l'Hôtel Résidence Aïcha."
-        waNumber={global.whatsappNumber}
+        waNumber={contact.whatsappNumber}
         greenButton
       />
 

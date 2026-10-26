@@ -9,18 +9,17 @@ import { CTABand } from "@/components/CTABand";
 import { WhatsappIcon } from "@/components/WhatsappIcon";
 import { buildWaLink } from "@/lib/whatsapp";
 import { getContent } from "@/lib/content/store";
-import { GlobalContentSchema, ContactContentSchema } from "@/lib/content/schemas";
-import { DEFAULT_GLOBAL_CONTENT, DEFAULT_CONTACT_CONTENT } from "@/lib/content/defaults";
+import { ContactContentSchema } from "@/lib/content/schemas";
+import { DEFAULT_CONTACT_CONTENT } from "@/lib/content/defaults";
 import { ICONS } from "@/lib/content/icons";
 
 export const instant = false;
 
 export default async function ContactPage() {
-  const global = await getContent("global", GlobalContentSchema, DEFAULT_GLOBAL_CONTENT);
   const contact = await getContent("contact", ContactContentSchema, DEFAULT_CONTACT_CONTENT);
   return (
     <>
-      <Header current="contact" waNumber={global.whatsappNumber} />
+      <Header current="contact" waNumber={contact.whatsappNumber} />
 
       {/* Title banner */}
       <section className="relative w-full overflow-hidden py-14 md:py-[88px]">
@@ -106,9 +105,9 @@ export default async function ContactPage() {
                     Hôtel Résidence Aïcha
                   </span>
                   <span className="text-[14px] leading-[1.5] text-espresso/65">
-                    {global.addressLine1}
+                    {contact.addressLine1}
                     <br />
-                    {global.addressLine2}
+                    {contact.addressLine2}
                   </span>
                 </div>
               </div>
@@ -117,7 +116,7 @@ export default async function ContactPage() {
 
               <div className="flex flex-col gap-5">
                 <a
-                  href={`tel:${global.phoneDisplay.replace(/\s/g, "")}`}
+                  href={`tel:${contact.phoneDisplay.replace(/\s/g, "")}`}
                   className="flex items-center gap-4"
                 >
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-terracotta/12 text-terracotta">
@@ -128,7 +127,7 @@ export default async function ContactPage() {
                       Téléphone
                     </span>
                     <span className="text-[15px] font-medium">
-                      {global.phoneDisplay}
+                      {contact.phoneDisplay}
                     </span>
                   </span>
                 </a>
@@ -136,7 +135,7 @@ export default async function ContactPage() {
                 <a
                   href={buildWaLink(
                     "Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda.",
-                    global.whatsappNumber
+                    contact.whatsappNumber
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -150,13 +149,13 @@ export default async function ContactPage() {
                       WhatsApp
                     </span>
                     <span className="text-[15px] font-medium">
-                      {global.whatsappDisplay}
+                      {contact.whatsappDisplay}
                     </span>
                   </span>
                 </a>
 
                 <a
-                  href={`mailto:${global.email}`}
+                  href={`mailto:${contact.email}`}
                   className="flex items-center gap-4"
                 >
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-terracotta/12 text-terracotta">
@@ -167,14 +166,14 @@ export default async function ContactPage() {
                       Email
                     </span>
                     <span className="text-[15px] font-medium">
-                      {global.email}
+                      {contact.email}
                     </span>
                   </span>
                 </a>
               </div>
 
               <a
-                href={global.mapsSearchUrl}
+                href={contact.mapsSearchUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-2 flex items-center justify-center gap-2.5 rounded-full bg-espresso px-6 py-4 text-[14.5px] font-bold text-paper transition-opacity duration-200 hover:opacity-85"
@@ -188,7 +187,7 @@ export default async function ContactPage() {
             {/* Map embed */}
             <div className="relative min-h-[320px] md:min-h-full">
               <iframe
-                src={global.mapsEmbedUrl}
+                src={contact.mapsEmbedUrl}
                 title="Localisation de l'Hôtel Résidence Aïcha sur Google Maps"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
@@ -239,17 +238,17 @@ export default async function ContactPage() {
           <Button
             href={buildWaLink(
               "Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda.",
-              global.whatsappNumber
+              contact.whatsappNumber
             )}
             variant="whatsapp"
           >
             <WhatsappIcon className="h-[18px] w-[18px]" />
-            {global.whatsappDisplay}
+            {contact.whatsappDisplay}
           </Button>
         </Wrap>
       </section>
 
-      <Footer phoneDisplay={global.phoneDisplay} email={global.email} />
+      <Footer phoneDisplay={contact.phoneDisplay} email={contact.email} />
     </>
   );
 }

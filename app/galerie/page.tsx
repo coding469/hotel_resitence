@@ -5,17 +5,17 @@ import { Wrap } from "@/components/Wrap";
 import { Eyebrow } from "@/components/Eyebrow";
 import { CTABand } from "@/components/CTABand";
 import { getContent } from "@/lib/content/store";
-import { GlobalContentSchema, GalleryContentSchema } from "@/lib/content/schemas";
-import { DEFAULT_GLOBAL_CONTENT, DEFAULT_GALLERY_CONTENT } from "@/lib/content/defaults";
+import { ContactContentSchema, GalleryContentSchema } from "@/lib/content/schemas";
+import { DEFAULT_CONTACT_CONTENT, DEFAULT_GALLERY_CONTENT } from "@/lib/content/defaults";
 
 export const instant = false;
 
 export default async function GaleriePage() {
-  const global = await getContent("global", GlobalContentSchema, DEFAULT_GLOBAL_CONTENT);
+  const contact = await getContent("contact", ContactContentSchema, DEFAULT_CONTACT_CONTENT);
   const gallery = await getContent("gallery", GalleryContentSchema, DEFAULT_GALLERY_CONTENT);
   return (
     <>
-      <Header current="galerie" waNumber={global.whatsappNumber} />
+      <Header current="galerie" waNumber={contact.whatsappNumber} />
 
       {/* Title banner */}
       <section className="relative w-full overflow-hidden py-14 md:py-[88px]">
@@ -68,7 +68,7 @@ export default async function GaleriePage() {
         heading="Ces photos vous donnent envie de réserver ?"
         buttonLabel="Écrivez-nous sur WhatsApp"
         waMessage="Bonjour, j'ai vu la galerie de l'Hôtel Résidence Aïcha et je souhaite réserver."
-        waNumber={global.whatsappNumber}
+        waNumber={contact.whatsappNumber}
         greenButton
       />
 

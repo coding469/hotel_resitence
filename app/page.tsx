@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Users, Star, MessageCircle } from "lucide-react";
+import { MapPin, Camera, Sparkles, Zap, Users, Star, MessageCircle } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Wrap } from "@/components/Wrap";
@@ -9,27 +9,61 @@ import { Button } from "@/components/Button";
 import { CTABand } from "@/components/CTABand";
 import { buildWaLink } from "@/lib/whatsapp";
 import { getContent } from "@/lib/content/store";
-import { GlobalContentSchema, RoomsContentSchema, HomeContentSchema, GalleryContentSchema } from "@/lib/content/schemas";
-import {
-  DEFAULT_GLOBAL_CONTENT,
-  DEFAULT_ROOMS_CONTENT,
-  DEFAULT_HOME_CONTENT,
-  DEFAULT_GALLERY_CONTENT,
-} from "@/lib/content/defaults";
-import { ICONS } from "@/lib/content/icons";
+import { ContactContentSchema, RoomsContentSchema, GalleryContentSchema } from "@/lib/content/schemas";
+import { DEFAULT_CONTACT_CONTENT, DEFAULT_ROOMS_CONTENT, DEFAULT_GALLERY_CONTENT } from "@/lib/content/defaults";
 
 export const instant = false;
 
+const trustItems = [
+  { icon: MapPin, label: "Liberté Ouest, Tambacounda" },
+  { icon: Camera, label: "Immeuble sous vidéosurveillance" },
+  { icon: Sparkles, label: "Chambres climatisées et soignées" },
+  { icon: Zap, label: "Réponse rapide sur WhatsApp" },
+];
+
+const testimonials = [
+  {
+    quote:
+      "Une expérience mémorable au cœur de Tambacounda. La sérénité du lieu et la gentillesse de l'équipe en font le point de chute idéal pour explorer la région, avec un confort optimal.",
+    author: "Avis vérifié",
+  },
+  {
+    quote: "Meilleur hôtel de Tambacounda avec un accueil chaleureux et agréable.",
+    author: "Avis Google",
+  },
+  {
+    quote: "Belle surprise. Bon accueil, chambre propre, bon petit déjeuner.",
+    author: "Avis Google",
+  },
+];
+
+const reasons = [
+  {
+    icon: MapPin,
+    title: "Emplacement pratique",
+    text: "Situé à Liberté Ouest, à proximité des axes principaux de Tambacounda — facile à trouver, facile à rejoindre.",
+  },
+  {
+    icon: Camera,
+    title: "Sécurité et sérénité",
+    text: "Couloirs et accès sous vidéosurveillance, pour un séjour l'esprit tranquille, seul, en famille ou entre collègues.",
+  },
+  {
+    icon: Zap,
+    title: "Réservation simple",
+    text: "Un message sur WhatsApp suffit : nous confirmons votre disponibilité et votre chambre rapidement.",
+  },
+];
+
 export default async function HomePage() {
-  const global = await getContent("global", GlobalContentSchema, DEFAULT_GLOBAL_CONTENT);
+  const contact = await getContent("contact", ContactContentSchema, DEFAULT_CONTACT_CONTENT);
   const rooms = await getContent("rooms", RoomsContentSchema, DEFAULT_ROOMS_CONTENT);
-  const home = await getContent("home", HomeContentSchema, DEFAULT_HOME_CONTENT);
   const gallery = await getContent("gallery", GalleryContentSchema, DEFAULT_GALLERY_CONTENT);
   const featuredRooms = rooms.slice(0, 3);
   const previewPhotos = gallery.photos.slice(0, 5);
   return (
     <>
-      <Header current="accueil" waNumber={global.whatsappNumber} />
+      <Header current="accueil" waNumber={contact.whatsappNumber} />
 
       {/* Hero */}
       <section className="relative w-full min-h-[480px] md:min-h-[620px] flex items-center overflow-hidden">
@@ -45,16 +79,20 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-t from-espresso/38 via-transparent to-transparent" />
         <Wrap className="relative w-full py-16 md:py-0">
           <div className="flex max-w-[560px] flex-col gap-6">
-            <Eyebrow light>{home.heroEyebrow}</Eyebrow>
+            <Eyebrow light>Bienvenue à Tambacounda</Eyebrow>
             <h1 className="font-serif text-[32px] md:text-[48px] font-medium leading-[1.1] text-paper">
-              {home.heroTitle}
+              Un séjour chaleureux, au cœur de la ville
             </h1>
-            <p className="max-w-[480px] text-[16.5px] leading-[1.7] text-paper/85">{home.heroText}</p>
+            <p className="max-w-[480px] text-[16.5px] leading-[1.7] text-paper/85">
+              Chambres confortables, accueil attentionné et emplacement
+              central — l&apos;Hôtel Résidence Aïcha vous reçoit comme chez
+              vous, pour une nuit ou un long séjour.
+            </p>
             <div className="mt-1.5 flex flex-wrap gap-3.5">
               <Button
                 href={buildWaLink(
                   "Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda.",
-                  global.whatsappNumber
+                  contact.whatsappNumber
                 )}
               >
                 <MessageCircle className="h-[18px] w-[18px]" />
@@ -72,12 +110,19 @@ export default async function HomePage() {
       <section className="w-full">
         <Wrap className="flex flex-wrap gap-14 py-14 md:py-[72px]">
           <div className="flex-[1_1_320px]">
-            <Eyebrow>{home.introEyebrow}</Eyebrow>
+            <Eyebrow>Notre hôtel</Eyebrow>
             <h2 className="mt-3.5 font-serif text-[25px] md:text-[32px] font-medium leading-[1.2]">
-              {home.introTitle}
+              Un accueil sénégalais, pensé dans les moindres détails
             </h2>
           </div>
-          <p className="mt-1.5 flex-[1_1_380px] text-base leading-[1.75] text-espresso/72">{home.introText}</p>
+          <p className="mt-1.5 flex-[1_1_380px] text-base leading-[1.75] text-espresso/72">
+            Situé dans le quartier Liberté Ouest à Tambacounda, l&apos;Hôtel
+            Résidence Aïcha propose des chambres climatisées avec salle de
+            bain privée, un immeuble sécurisé sous vidéosurveillance et une
+            équipe joignable directement sur WhatsApp. Que vous soyez de
+            passage pour affaires ou en famille, vous trouverez ici calme,
+            propreté et un service attentif.
+          </p>
         </Wrap>
       </section>
 
@@ -85,15 +130,12 @@ export default async function HomePage() {
       <section className="w-full">
         <Wrap className="pb-14 md:pb-[72px]">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px overflow-hidden rounded-2xl border border-espresso/10 bg-espresso/10">
-            {home.trustItems.map(({ icon, label }) => {
-              const Icon = ICONS[icon];
-              return (
-                <div key={label} className="flex flex-col gap-2.5 bg-paper p-6 md:p-7">
-                  <Icon className="h-6 w-6 text-terracotta" strokeWidth={1.6} />
-                  <span className="text-[14.5px] font-semibold">{label}</span>
-                </div>
-              );
-            })}
+            {trustItems.map(({ icon: Icon, label }) => (
+              <div key={label} className="flex flex-col gap-2.5 bg-paper p-6 md:p-7">
+                <Icon className="h-6 w-6 text-terracotta" strokeWidth={1.6} />
+                <span className="text-[14.5px] font-semibold">{label}</span>
+              </div>
+            ))}
           </div>
         </Wrap>
       </section>
@@ -195,18 +237,15 @@ export default async function HomePage() {
             </h2>
           </div>
           <div className="grid gap-9 md:grid-cols-3">
-            {home.reasons.map(({ icon, title, text }) => {
-              const Icon = ICONS[icon];
-              return (
-                <div key={title} className="flex flex-col gap-3">
-                  <Icon className="h-[26px] w-[26px] text-terracotta" strokeWidth={1.6} />
-                  <span className="font-serif text-[17.5px] font-semibold">
-                    {title}
-                  </span>
-                  <p className="text-sm leading-[1.65] text-espresso/68">{text}</p>
-                </div>
-              );
-            })}
+            {reasons.map(({ icon: Icon, title, text }) => (
+              <div key={title} className="flex flex-col gap-3">
+                <Icon className="h-[26px] w-[26px] text-terracotta" strokeWidth={1.6} />
+                <span className="font-serif text-[17.5px] font-semibold">
+                  {title}
+                </span>
+                <p className="text-sm leading-[1.65] text-espresso/68">{text}</p>
+              </div>
+            ))}
           </div>
         </Wrap>
       </section>
@@ -228,7 +267,7 @@ export default async function HomePage() {
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
-            {home.testimonials.map((t, i) => (
+            {testimonials.map((t, i) => (
               <div
                 key={i}
                 className="flex flex-col gap-3.5 rounded-2xl border border-paper/12 bg-paper/6 p-6"
@@ -250,12 +289,12 @@ export default async function HomePage() {
         heading="Prêt à réserver votre séjour à l'Hôtel Résidence Aïcha ?"
         buttonLabel="Contactez-nous sur WhatsApp"
         waMessage="Bonjour, je souhaite réserver une chambre à l'Hôtel Résidence Aïcha à Tambacounda."
-        waNumber={global.whatsappNumber}
+        waNumber={contact.whatsappNumber}
         size="large"
         greenButton
       />
 
-      <Footer phoneDisplay={global.phoneDisplay} email={global.email} />
+      <Footer phoneDisplay={contact.phoneDisplay} email={contact.email} />
     </>
   );
 }
