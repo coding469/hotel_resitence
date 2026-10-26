@@ -1,0 +1,52 @@
+import {
+  MapPin,
+  Camera,
+  Sparkles,
+  Zap,
+  Snowflake,
+  Wifi,
+  Coffee,
+  ShowerHead,
+  ShieldCheck,
+  Sofa,
+  HeartHandshake,
+  MessageCircle,
+  CalendarCheck,
+  KeyRound,
+  type LucideIcon,
+} from "lucide-react";
+import type { IconKey } from "./schemas";
+
+export const ICONS: Record<IconKey, LucideIcon> = {
+  mapPin: MapPin,
+  camera: Camera,
+  sparkles: Sparkles,
+  zap: Zap,
+  snowflake: Snowflake,
+  wifi: Wifi,
+  coffee: Coffee,
+  showerHead: ShowerHead,
+  shieldCheck: ShieldCheck,
+  sofa: Sofa,
+  heartHandshake: HeartHandshake,
+  messageCircle: MessageCircle,
+  calendarCheck: CalendarCheck,
+  keyRound: KeyRound,
+};
+
+export const ICON_OPTIONS: { value: IconKey; label: string }[] = [
+  { value: "mapPin", label: "Localisation" },
+  { value: "camera", label: "Caméra / sécurité" },
+  { value: "sparkles", label: "Propreté / confort" },
+  { value: "zap", label: "Rapidité" },
+  { value: "snowflake", label: "Climatisation" },
+  { value: "wifi", label: "Wi-Fi" },
+  { value: "coffee", label: "Petit déjeuner" },
+  { value: "showerHead", label: "Douche / salle de bain" },
+  { value: "shieldCheck", label: "Sécurité" },
+  { value: "sofa", label: "Salon" },
+  { value: "heartHandshake", label: "Accueil" },
+  { value: "messageCircle", label: "Message / WhatsApp" },
+  { value: "calendarCheck", label: "Réservation" },
+  { value: "keyRound", label: "Clé / arrivée" },
+];
