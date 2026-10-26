@@ -1,20 +1,5 @@
 import Image from "next/image";
-import {
-  Snowflake,
-  Wifi,
-  Coffee,
-  ShowerHead,
-  ShieldCheck,
-  Sofa,
-  HeartHandshake,
-  MessageCircle,
-  MapPin,
-  Phone,
-  Mail,
-  ArrowRight,
-  CalendarCheck,
-  KeyRound,
-} from "lucide-react";
+import { MapPin, Phone, Mail, ArrowRight } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Wrap } from "@/components/Wrap";
@@ -24,79 +9,15 @@ import { CTABand } from "@/components/CTABand";
 import { WhatsappIcon } from "@/components/WhatsappIcon";
 import { buildWaLink } from "@/lib/whatsapp";
 import { getContent } from "@/lib/content/store";
-import { GlobalContentSchema } from "@/lib/content/schemas";
-import { DEFAULT_GLOBAL_CONTENT } from "@/lib/content/defaults";
+import { GlobalContentSchema, ContactContentSchema } from "@/lib/content/schemas";
+import { DEFAULT_GLOBAL_CONTENT, DEFAULT_CONTACT_CONTENT } from "@/lib/content/defaults";
+import { ICONS } from "@/lib/content/icons";
 
 export const instant = false;
 
-const services = [
-  {
-    icon: Snowflake,
-    title: "Climatisation",
-    text: "Présente dans toutes les chambres.",
-  },
-  {
-    icon: Wifi,
-    title: "Wi-Fi très haut débit",
-    text: "Connexion rapide dans tout l'hôtel.",
-  },
-  {
-    icon: Coffee,
-    title: "Petit déjeuner",
-    text: "Servi chaque matin pour bien démarrer la journée.",
-  },
-  {
-    icon: ShowerHead,
-    title: "Salle de bain privée",
-    text: "Douche à l'italienne, finitions en marbre dans chaque chambre.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Gardien & sécurité",
-    text: "Environnement sécurisé avec gardien et vidéosurveillance.",
-  },
-  {
-    icon: Sofa,
-    title: "Espace salon & cuisine",
-    text: "Un espace commun chaleureux, pour se détendre entre deux visites.",
-  },
-  {
-    icon: HeartHandshake,
-    title: "Accueil chaleureux",
-    text: "La chaleur de l'hospitalité sénégalaise, à chaque étape du séjour.",
-  },
-  {
-    icon: MessageCircle,
-    title: "Contact direct WhatsApp",
-    text: "Une question, une demande spéciale ? Nous répondons rapidement.",
-  },
-  {
-    icon: MapPin,
-    title: "Emplacement central",
-    text: "Quartier Liberté Ouest, facile d'accès à Tambacounda.",
-  },
-];
-
-const steps = [
-  {
-    icon: MessageCircle,
-    title: "Écrivez-nous",
-    text: "Contactez-nous sur WhatsApp avec vos dates et le type de chambre souhaité.",
-  },
-  {
-    icon: CalendarCheck,
-    title: "Confirmez",
-    text: "Nous vérifions la disponibilité et confirmons votre réservation avec vous.",
-  },
-  {
-    icon: KeyRound,
-    title: "Profitez du séjour",
-    text: "Arrivez à l'adresse indiquée, votre chambre vous attend.",
-  },
-];
-
 export default async function ContactPage() {
   const global = await getContent("global", GlobalContentSchema, DEFAULT_GLOBAL_CONTENT);
+  const contact = await getContent("contact", ContactContentSchema, DEFAULT_CONTACT_CONTENT);
   return (
     <>
       <Header current="contact" waNumber={global.whatsappNumber} />
@@ -113,14 +34,11 @@ export default async function ContactPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-espresso/65 via-espresso/40 to-espresso/8" />
         <Wrap className="relative">
-          <Eyebrow light>Services, localisation &amp; contact</Eyebrow>
+          <Eyebrow light>{contact.heroEyebrow}</Eyebrow>
           <h1 className="mt-3.5 max-w-[640px] font-serif text-[28px] md:text-[40px] font-medium leading-[1.12] text-paper">
-            Tout ce qu&apos;il faut savoir avant votre arrivée
+            {contact.heroTitle}
           </h1>
-          <p className="mt-4 max-w-[560px] text-base text-paper/80">
-            Nos équipements, notre adresse exacte et la marche à suivre pour
-            réserver votre chambre à Tambacounda.
-          </p>
+          <p className="mt-4 max-w-[560px] text-base text-paper/80">{contact.heroText}</p>
         </Wrap>
       </section>
 
@@ -134,7 +52,9 @@ export default async function ContactPage() {
             </h2>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
-            {services.map(({ icon: Icon, title, text }) => (
+            {contact.services.map(({ icon, title, text }) => {
+              const Icon = ICONS[icon];
+              return (
               <div
                 key={title}
                 className="flex flex-col gap-3 rounded-2xl border border-espresso/8 bg-paper p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(36,27,18,0.1)]"
@@ -145,7 +65,8 @@ export default async function ContactPage() {
                   {text}
                 </p>
               </div>
-            ))}
+              );
+            })}
           </div>
           <p className="mt-6 max-w-[720px] text-[13px] text-espresso/50">
             D&apos;autres services (parking, blanchisserie) peuvent être
@@ -288,20 +209,23 @@ export default async function ContactPage() {
             </h2>
           </div>
           <div className="flex flex-wrap gap-8">
-            {steps.map(({ icon: Icon, title, text }, i) => (
-              <div key={title} className="flex flex-[1_1_220px] flex-col gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-terracotta font-serif text-[17px] font-semibold text-paper">
-                  {i + 1}
-                </span>
-                <span className="flex items-center gap-2 font-serif text-[17px] font-semibold">
-                  <Icon className="h-[18px] w-[18px] text-terracotta" />
-                  {title}
-                </span>
-                <p className="text-sm leading-[1.65] text-espresso/65">
-                  {text}
-                </p>
-              </div>
-            ))}
+            {contact.steps.map(({ icon, title, text }, i) => {
+              const Icon = ICONS[icon];
+              return (
+                <div key={title} className="flex flex-[1_1_220px] flex-col gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-terracotta font-serif text-[17px] font-semibold text-paper">
+                    {i + 1}
+                  </span>
+                  <span className="flex items-center gap-2 font-serif text-[17px] font-semibold">
+                    <Icon className="h-[18px] w-[18px] text-terracotta" />
+                    {title}
+                  </span>
+                  <p className="text-sm leading-[1.65] text-espresso/65">
+                    {text}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </Wrap>
       </section>

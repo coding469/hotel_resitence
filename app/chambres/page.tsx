@@ -7,47 +7,19 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { CTABand } from "@/components/CTABand";
 import { buildWaLink } from "@/lib/whatsapp";
 import { getContent } from "@/lib/content/store";
-import { GlobalContentSchema, RoomsContentSchema } from "@/lib/content/schemas";
-import { DEFAULT_GLOBAL_CONTENT, DEFAULT_ROOMS_CONTENT } from "@/lib/content/defaults";
+import { GlobalContentSchema, RoomsContentSchema, ChambresPageContentSchema } from "@/lib/content/schemas";
+import {
+  DEFAULT_GLOBAL_CONTENT,
+  DEFAULT_ROOMS_CONTENT,
+  DEFAULT_CHAMBRES_PAGE_CONTENT,
+} from "@/lib/content/defaults";
 
 export const instant = false;
-
-const moreRooms = [
-  {
-    image: "/images/chambre-corail.jpg",
-    alt: "Chambre avec coin salon privatif et rideaux cuivrés",
-    caption: "Chambre avec coin salon privatif",
-  },
-  {
-    image: "/images/chambre-jaune.jpg",
-    alt: "Chambre avec coin bureau et téléviseur",
-    caption: "Chambre avec coin bureau",
-  },
-  {
-    image: "/images/salon-cuisine.jpg",
-    alt: "Espace salon commun avec canapés en cuir noir",
-    caption: "Espace salon commun",
-  },
-  {
-    image: "/images/couloir.jpg",
-    alt: "Couloir et accès aux chambres",
-    caption: "Couloir et accès aux chambres",
-  },
-  {
-    image: "/images/chambre-placard.jpg",
-    alt: "Rangement intégré avec penderie et bureau",
-    caption: "Rangement intégré et coin bureau",
-  },
-  {
-    image: "/images/chambre-rangement.jpg",
-    alt: "Armoire intégrée avec mini-réfrigérateur",
-    caption: "Armoire intégrée et mini-bar",
-  },
-];
 
 export default async function ChambresPage() {
   const global = await getContent("global", GlobalContentSchema, DEFAULT_GLOBAL_CONTENT);
   const rooms = await getContent("rooms", RoomsContentSchema, DEFAULT_ROOMS_CONTENT);
+  const chambresPage = await getContent("chambresPage", ChambresPageContentSchema, DEFAULT_CHAMBRES_PAGE_CONTENT);
   return (
     <>
       <Header current="chambres" waNumber={global.whatsappNumber} />
@@ -64,15 +36,11 @@ export default async function ChambresPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-espresso/82 via-espresso/60 to-espresso/25" />
         <Wrap className="relative">
-          <Eyebrow light>Nos chambres</Eyebrow>
+          <Eyebrow light>{chambresPage.heroEyebrow}</Eyebrow>
           <h1 className="mt-3.5 max-w-[620px] font-serif text-[28px] md:text-[40px] font-medium leading-[1.12] text-paper">
-            Un espace confortable pour chaque type de séjour
+            {chambresPage.heroTitle}
           </h1>
-          <p className="mt-4 max-w-[560px] text-base text-paper/80">
-            Toutes nos chambres sont climatisées et disposent d&apos;une
-            salle de bain privée. Les tarifs vous sont confirmés
-            directement sur WhatsApp selon la durée du séjour.
-          </p>
+          <p className="mt-4 max-w-[560px] text-base text-paper/80">{chambresPage.heroText}</p>
         </Wrap>
       </section>
 
@@ -157,15 +125,15 @@ export default async function ChambresPage() {
             </h2>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
-            {moreRooms.map((room) => (
+            {chambresPage.moreRooms.map((room) => (
               <figure
-                key={room.image}
+                key={room.id}
                 className="overflow-hidden rounded-[18px] border border-espresso/8 bg-paper transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(36,27,18,0.14)]"
               >
                 <div className="relative h-[190px]">
                   <Image
                     src={room.image}
-                    alt={room.alt}
+                    alt={room.imageAlt}
                     fill
                     sizes="(max-width: 860px) 100vw, 33vw"
                     className="object-cover"
@@ -202,16 +170,16 @@ export default async function ChambresPage() {
       <section className="w-full bg-panel py-16 md:py-[76px]">
         <Wrap>
           <div className="mb-8 max-w-xl">
-            <Eyebrow>Salles de bain privées</Eyebrow>
+            <Eyebrow>{chambresPage.bathroomEyebrow}</Eyebrow>
             <h2 className="mt-3.5 font-serif text-[25px] md:text-[32px] font-medium leading-[1.2]">
-              Douche à l&apos;italienne et finitions en marbre
+              {chambresPage.bathroomTitle}
             </h2>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
             <div className="relative h-60 md:h-[340px] overflow-hidden rounded-[18px]">
               <Image
-                src="/images/salle-bain-noire.jpg"
-                alt="Salle de bain avec vasque suspendue et miroir"
+                src={chambresPage.bathroomImage1}
+                alt={chambresPage.bathroomImage1Alt}
                 fill
                 sizes="(max-width: 860px) 100vw, 50vw"
                 className="object-cover"
@@ -219,8 +187,8 @@ export default async function ChambresPage() {
             </div>
             <div className="relative h-60 md:h-[340px] overflow-hidden rounded-[18px]">
               <Image
-                src="/images/salle-bain-marbre.jpg"
-                alt="Salle de bain avec vasque, douche et finitions carrelées"
+                src={chambresPage.bathroomImage2}
+                alt={chambresPage.bathroomImage2Alt}
                 fill
                 sizes="(max-width: 860px) 100vw, 50vw"
                 className="object-cover"
