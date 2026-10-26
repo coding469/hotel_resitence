@@ -7,61 +7,10 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { CTABand } from "@/components/CTABand";
 import { buildWaLink } from "@/lib/whatsapp";
 import { getContent } from "@/lib/content/store";
-import { GlobalContentSchema } from "@/lib/content/schemas";
-import { DEFAULT_GLOBAL_CONTENT } from "@/lib/content/defaults";
+import { GlobalContentSchema, RoomsContentSchema } from "@/lib/content/schemas";
+import { DEFAULT_GLOBAL_CONTENT, DEFAULT_ROOMS_CONTENT } from "@/lib/content/defaults";
 
 export const instant = false;
-
-const rooms = [
-  {
-    name: "Chambre Standard",
-    capacity: "2 pers.",
-    bed: "1 lit double",
-    image: "/images/chambre-standard.jpg",
-    alt: "Chambre Standard — lit double, tête de lit en bois sombre, literie blanche",
-    amenities: ["Climatisation", "Salle de bain privée", "Rangement et miroir"],
-  },
-  {
-    name: "Chambre Confort",
-    capacity: "2–3 pers.",
-    bed: "1 lit double",
-    image: "/images/chambre-confort.jpg",
-    alt: "Chambre Confort — tête de lit capitonnée gris-bleu, liseuses intégrées, tableau décoratif",
-    amenities: ["Climatisation", "Liseuses de chevet", "Salle de bain privée"],
-  },
-  {
-    name: "Chambre Deluxe",
-    capacity: "2–3 pers.",
-    bed: "1 lit double",
-    image: "/images/chambre-deluxe.jpg",
-    alt: "Chambre Deluxe — ambiance chaleureuse, tons chauds, armoire miroir",
-    amenities: ["Climatisation", "Armoire avec miroir", "Salle de bain privée"],
-  },
-  {
-    name: "Chambre Cosy",
-    capacity: "2 pers.",
-    bed: "1 lit double",
-    image: "/images/chambre-cosy.jpg",
-    alt: "Chambre Cosy — ambiance chaleureuse aux tons chauds, coin salon",
-    amenities: ["Climatisation", "Coin salon", "Salle de bain privée"],
-  },
-  {
-    name: "Chambre Rosée",
-    capacity: "2–3 pers.",
-    bed: "1 lit double",
-    image: "/images/chambre-rose.jpg",
-    alt: "Chambre Rosée — tons rosés, fauteuil doré, décoration soignée",
-    amenities: ["Climatisation", "Décoration soignée", "Salle de bain privée"],
-  },
-  {
-    name: "Chambre Prestige",
-    capacity: "2–3 pers.",
-    bed: "1 lit double",
-    image: "/images/chambre-deluxe-2.jpg",
-    alt: "Chambre Prestige — tête de lit capitonnée, ambiance chaleureuse",
-    amenities: ["Climatisation", "Tête de lit capitonnée", "Salle de bain privée"],
-  },
-];
 
 const moreRooms = [
   {
@@ -98,6 +47,7 @@ const moreRooms = [
 
 export default async function ChambresPage() {
   const global = await getContent("global", GlobalContentSchema, DEFAULT_GLOBAL_CONTENT);
+  const rooms = await getContent("rooms", RoomsContentSchema, DEFAULT_ROOMS_CONTENT);
   return (
     <>
       <Header current="chambres" waNumber={global.whatsappNumber} />
@@ -132,13 +82,13 @@ export default async function ChambresPage() {
           <div className="grid gap-6 md:grid-cols-3">
             {rooms.map((room) => (
               <div
-                key={room.name}
+                key={room.id}
                 className="flex flex-col overflow-hidden rounded-[18px] border border-espresso/8 bg-paper"
               >
                 <div className="relative h-[210px]">
                   <Image
                     src={room.image}
-                    alt={room.alt}
+                    alt={room.imageAlt}
                     fill
                     sizes="(max-width: 860px) 100vw, 33vw"
                     className="object-cover"
@@ -156,6 +106,9 @@ export default async function ChambresPage() {
                       <BedDouble className="h-3.5 w-3.5" /> {room.bed}
                     </span>
                   </div>
+                  {room.description && (
+                    <p className="text-[13px] leading-[1.6] text-espresso/65">{room.description}</p>
+                  )}
                   <ul className="mt-1 flex flex-col gap-1.5">
                     {room.amenities.map((item) => (
                       <li

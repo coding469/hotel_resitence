@@ -9,8 +9,8 @@ import { Button } from "@/components/Button";
 import { CTABand } from "@/components/CTABand";
 import { buildWaLink } from "@/lib/whatsapp";
 import { getContent } from "@/lib/content/store";
-import { GlobalContentSchema } from "@/lib/content/schemas";
-import { DEFAULT_GLOBAL_CONTENT } from "@/lib/content/defaults";
+import { GlobalContentSchema, RoomsContentSchema } from "@/lib/content/schemas";
+import { DEFAULT_GLOBAL_CONTENT, DEFAULT_ROOMS_CONTENT } from "@/lib/content/defaults";
 
 export const instant = false;
 
@@ -19,30 +19,6 @@ const trustItems = [
   { icon: Camera, label: "Immeuble sous vidéosurveillance" },
   { icon: Sparkles, label: "Chambres climatisées et soignées" },
   { icon: Zap, label: "Réponse rapide sur WhatsApp" },
-];
-
-const rooms = [
-  {
-    slug: "standard",
-    name: "Chambre Standard",
-    capacity: "2 personnes",
-    image: "/images/chambre-standard.jpg",
-    alt: "Chambre Standard — lit double, tête de lit en bois sombre",
-  },
-  {
-    slug: "confort",
-    name: "Chambre Confort",
-    capacity: "2–3 personnes",
-    image: "/images/chambre-confort.jpg",
-    alt: "Chambre Confort — tête de lit capitonnée gris-bleu avec liseuses",
-  },
-  {
-    slug: "deluxe",
-    name: "Chambre Deluxe",
-    capacity: "2–3 personnes",
-    image: "/images/chambre-deluxe.jpg",
-    alt: "Chambre Deluxe — ambiance chaleureuse, tons chauds",
-  },
 ];
 
 const testimonials = [
@@ -81,6 +57,8 @@ const reasons = [
 
 export default async function HomePage() {
   const global = await getContent("global", GlobalContentSchema, DEFAULT_GLOBAL_CONTENT);
+  const rooms = await getContent("rooms", RoomsContentSchema, DEFAULT_ROOMS_CONTENT);
+  const featuredRooms = rooms.slice(0, 3);
   return (
     <>
       <Header current="accueil" waNumber={global.whatsappNumber} />
@@ -178,16 +156,16 @@ export default async function HomePage() {
             </Link>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
-            {rooms.map((room) => (
+            {featuredRooms.map((room) => (
               <Link
-                key={room.slug}
+                key={room.id}
                 href="/chambres"
                 className="group flex flex-col overflow-hidden rounded-[18px] border border-espresso/8 bg-paper transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_20px_44px_rgba(36,27,18,0.14)]"
               >
                 <div className="relative h-[210px] overflow-hidden">
                   <Image
                     src={room.image}
-                    alt={room.alt}
+                    alt={room.imageAlt}
                     fill
                     sizes="(max-width: 860px) 100vw, 33vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
