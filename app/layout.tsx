@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   description:
     "Chambres confortables, accueil attentionné et emplacement central à Tambacounda. Réservez directement sur WhatsApp.",
   verification: {
-    google: "PXQHZWp-NKDno6S0G8x8dnzCDQoBGpMK7iXVQcOfRBs",
+    google: ["PXQHZWp-NKDno6S0G8x8dnzCDQoBGpMK7iXVQcOfRBs", "yCWOePPmGycDLBkh0i3kO9fM4W8cvmMdsy8yvPry_DE"],
   },
 };
 
