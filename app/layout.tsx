@@ -20,9 +20,9 @@ const workSans = Work_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.hotelaicha.com"),
-  title: "Hôtel Résidence Aïcha — Tambacounda",
+  title: "Hôtel Résidence Aïcha — Chambres type appartement à Tambacounda",
   description:
-    "Chambres confortables, accueil attentionné et emplacement central à Tambacounda. Réservez directement sur WhatsApp.",
+    "Chambres indépendantes avec salle de bain privée et climatisation, un confort proche de l'appartement meublé, au cœur de Tambacounda. Réservez directement sur WhatsApp.",
   verification: {
     google: ["PXQHZWp-NKDno6S0G8x8dnzCDQoBGpMK7iXVQcOfRBs", "yCWOePPmGycDLBkh0i3kO9fM4W8cvmMdsy8yvPry_DE"],
   },
