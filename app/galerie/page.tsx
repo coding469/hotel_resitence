@@ -11,8 +11,10 @@ import { DEFAULT_CONTACT_CONTENT, DEFAULT_GALLERY_CONTENT } from "@/lib/content/
 export const instant = false;
 
 export default async function GaleriePage() {
-  const contact = await getContent("contact", ContactContentSchema, DEFAULT_CONTACT_CONTENT);
-  const gallery = await getContent("gallery", GalleryContentSchema, DEFAULT_GALLERY_CONTENT);
+  const [contact, gallery] = await Promise.all([
+    getContent("contact", ContactContentSchema, DEFAULT_CONTACT_CONTENT),
+    getContent("gallery", GalleryContentSchema, DEFAULT_GALLERY_CONTENT),
+  ]);
   return (
     <>
       <Header current="galerie" waNumber={contact.whatsappNumber} />

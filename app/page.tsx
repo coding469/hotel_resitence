@@ -56,9 +56,11 @@ const reasons = [
 ];
 
 export default async function HomePage() {
-  const contact = await getContent("contact", ContactContentSchema, DEFAULT_CONTACT_CONTENT);
-  const rooms = await getContent("rooms", RoomsContentSchema, DEFAULT_ROOMS_CONTENT);
-  const gallery = await getContent("gallery", GalleryContentSchema, DEFAULT_GALLERY_CONTENT);
+  const [contact, rooms, gallery] = await Promise.all([
+    getContent("contact", ContactContentSchema, DEFAULT_CONTACT_CONTENT),
+    getContent("rooms", RoomsContentSchema, DEFAULT_ROOMS_CONTENT),
+    getContent("gallery", GalleryContentSchema, DEFAULT_GALLERY_CONTENT),
+  ]);
   const featuredRooms = rooms.slice(0, 3);
   const previewPhotos = gallery.photos.slice(0, 5);
   return (

@@ -17,9 +17,11 @@ import {
 export const instant = false;
 
 export default async function ChambresPage() {
-  const contact = await getContent("contact", ContactContentSchema, DEFAULT_CONTACT_CONTENT);
-  const rooms = await getContent("rooms", RoomsContentSchema, DEFAULT_ROOMS_CONTENT);
-  const chambresPage = await getContent("chambresPage", ChambresPageContentSchema, DEFAULT_CHAMBRES_PAGE_CONTENT);
+  const [contact, rooms, chambresPage] = await Promise.all([
+    getContent("contact", ContactContentSchema, DEFAULT_CONTACT_CONTENT),
+    getContent("rooms", RoomsContentSchema, DEFAULT_ROOMS_CONTENT),
+    getContent("chambresPage", ChambresPageContentSchema, DEFAULT_CHAMBRES_PAGE_CONTENT),
+  ]);
   return (
     <>
       <Header current="chambres" waNumber={contact.whatsappNumber} />

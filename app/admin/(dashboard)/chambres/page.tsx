@@ -8,8 +8,10 @@ import { ChambresPageForm } from "./ChambresPageForm";
 export const instant = false;
 
 export default async function AdminChambresPage() {
-  const rooms = await getContent("rooms", RoomsContentSchema, DEFAULT_ROOMS_CONTENT);
-  const chambresPage = await getContent("chambresPage", ChambresPageContentSchema, DEFAULT_CHAMBRES_PAGE_CONTENT);
+  const [rooms, chambresPage] = await Promise.all([
+    getContent("rooms", RoomsContentSchema, DEFAULT_ROOMS_CONTENT),
+    getContent("chambresPage", ChambresPageContentSchema, DEFAULT_CHAMBRES_PAGE_CONTENT),
+  ]);
   return (
     <div className="flex flex-col gap-6">
       <AdminPageHeader
